@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nifty Options Playbook — Ojha CPR Five-Layer System</title>
+<meta name="description" content="Complete interactive intraday options trading playbook for Nifty 50 and BankNifty">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#12151d;--bg3:#1a1e2a;--border:#262c3b;--border2:#333b4f;
+  --text:#e6eaf2;--muted:#8b95a8;--faint:#5a6376;
+  --amber:#f59e0b;--amber-d:#f59e0b1a;--amber-b:#f59e0b55;
+  --green:#22c55e;--green-d:#22c55e15;--green-b:#22c55e50;
+  --red:#ef4444;--red-d:#ef444415;--red-b:#ef444450;
+  --blue:#60a5fa;--blue-d:#60a5fa15;--blue-b:#60a5fa50;
+  --purple:#a78bfa;--purple-d:#a78bfa15;
+  --orange:#fb923c;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;display:flex;min-height:100vh}
+::selection{background:var(--amber);color:#000}
+
+/* SIDEBAR */
+nav{width:250px;min-width:250px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;padding:26px 0;flex-shrink:0;z-index:50}
+nav::-webkit-scrollbar{width:4px}
+nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.nav-logo{padding:0 22px 18px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.nav-logo .mark{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:.18em}
+.nav-logo .title{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-top:4px}
+.nav-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);padding:14px 22px 5px;font-family:'JetBrains Mono',monospace}
+nav a{display:flex;align-items:center;gap:8px;padding:7px 22px;font-size:13px;color:var(--muted);text-decoration:none;transition:all .15s;border-left:2px solid transparent}
+nav a:hover{color:var(--text);background:var(--bg3)}
+nav a.active{color:var(--amber);border-left-color:var(--amber);background:var(--amber-d)}
+nav a .num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);min-width:18px}
+nav a.active .num{color:var(--amber)}
+
+main{flex:1;max-width:960px;padding:0 56px 80px;overflow-x:hidden}
+
+/* HERO */
+.hero{padding:64px 0 48px;border-bottom:1px solid var(--border);margin-bottom:56px}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);text-transform:uppercase;letter-spacing:.2em;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--amber)}
+.hero h1{font-family:'Sora',sans-serif;font-size:42px;font-weight:800;line-height:1.12;color:#fff;margin-bottom:18px;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero-sub{font-size:16px;color:var(--muted);max-width:640px;margin-bottom:30px;line-height:1.7}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px}
+.hpill{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 12px;border-radius:5px;border:1px solid;letter-spacing:.02em}
+.hp-amber{color:var(--amber);border-color:var(--amber-b);background:var(--amber-d)}
+.hp-green{color:var(--green);border-color:var(--green-b);background:var(--green-d)}
+.hp-red{color:var(--red);border-color:var(--red-b);background:var(--red-d)}
+.hp-blue{color:var(--blue);border-color:var(--blue-b);background:var(--blue-d)}
+.hp-purple{color:var(--purple);border-color:#a78bfa50;background:var(--purple-d)}
+
+/* SECTIONS */
+section{margin-bottom:80px}
+.sec-head{margin-bottom:28px}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:.18em;margin-bottom:10px}
+section h2{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+section h3{font-family:'Sora',sans-serif;font-size:16px;font-weight:600;color:var(--text);margin:28px 0 12px}
+.sec-intro{color:var(--muted);font-size:14px;line-height:1.7;max-width:700px}
+p{color:var(--muted);margin-bottom:14px;font-size:14px}
+strong{color:var(--text);font-weight:500}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:18px 0}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--amber-b);transform:translateY(-1px)}
+.c-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);margin-bottom:7px;font-family:'JetBrains Mono',monospace}
+.c-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
+.c-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* RULE ROWS */
+.rules{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:18px 0;background:var(--bg2)}
+.rr{display:flex;gap:14px;align-items:flex-start;padding:15px 18px;border-bottom:1px solid var(--border)}
+.rr:last-child{border-bottom:none}
+.rdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:8px}
+.dg{background:var(--green);box-shadow:0 0 8px var(--green)}
+.dr{background:var(--red);box-shadow:0 0 8px var(--red)}
+.da{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.db{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+.rh{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px}
+.rb{font-size:12.5px;color:var(--muted);line-height:1.6}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px;background:var(--bg2);border-radius:10px;overflow:hidden}
+.tbl-wrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:18px 0}
+.tbl-wrap table{margin:0;border-radius:0}
+th{background:var(--bg3);color:var(--faint);font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-weight:500}
+td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:var(--bg3)}
+td:first-child{color:var(--text);font-weight:500}
+
+/* BADGES */
+.sig{display:inline-block;font-size:10px;padding:3px 9px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:.05em;white-space:nowrap}
+.sg{background:var(--green-d);color:var(--green);border:1px solid var(--green-b)}
+.sn{background:var(--red-d);color:var(--red);border:1px solid var(--red-b)}
+.sw{background:var(--amber-d);color:var(--amber);border:1px solid var(--amber-b)}
+.si{background:var(--blue-d);color:var(--blue);border:1px solid var(--blue-b)}
+.lvl{font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.lg{background:var(--green-d);color:var(--green)}
+.lr{background:var(--red-d);color:var(--red)}
+.la{background:var(--amber-d);color:var(--amber)}
+.lb{background:var(--blue-d);color:var(--blue)}
+
+/* CALLOUTS */
+.co{border-radius:10px;padding:16px 20px;margin:18px 0;font-size:13px;line-height:1.7;border:1px solid;position:relative;padding-left:48px}
+.co::before{font-family:'JetBrains Mono',monospace;position:absolute;left:18px;top:16px;font-size:15px}
+.co-a{background:var(--amber-d);border-color:var(--amber-b);color:#fde68a}.co-a::before{content:'!';color:var(--amber)}
+.co-g{background:var(--green-d);border-color:var(--green-b);color:#86efac}.co-g::before{content:'+';color:var(--green)}
+.co-r{background:var(--red-d);border-color:var(--red-b);color:#fca5a5}.co-r::before{content:'×';color:var(--red)}
+.co-b{background:var(--blue-d);border-color:var(--blue-b);color:#93c5fd}.co-b::before{content:'i';color:var(--blue)}
+.co strong{color:inherit;font-weight:600}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.tab{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;color:var(--muted);transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap}
+.tab:hover{border-color:var(--border2);color:var(--text)}
+.tab.on{background:var(--amber-d);border-color:var(--amber-b);color:var(--amber);font-weight:500}
+
+/* SCENARIO BUTTONS */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:20px}
+.sbtn{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:11px 13px;cursor:pointer;text-align:left;font-size:11.5px;color:var(--muted);transition:all .15s;font-family:'Inter',sans-serif}
+.sbtn:hover{border-color:var(--border2)}
+.sbtn.on{border-color:var(--amber);background:var(--amber-d)}
+.sbtn .st{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sbtn.on .st{color:var(--amber)}
+
+/* DETAIL GRID */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px}
+.dc{background:var(--bg3);border-radius:8px;padding:12px 15px}
+.dcl{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.dcv{font-size:13px;font-weight:500;color:var(--text);line-height:1.45}
+
+/* ACTION BOX */
+.abox{border:1px solid var(--border);border-radius:10px;padding:15px 18px;font-size:13px;color:var(--muted);line-height:1.7;background:var(--bg2)}
+.abox strong{color:var(--text)}
+
+/* VERDICT */
+.verdict{display:flex;align-items:center;gap:14px;padding:14px 20px;border-radius:10px;margin-bottom:18px;border:1px solid}
+.v-go{background:var(--green-d);border-color:var(--green-b)}
+.v-no{background:var(--red-d);border-color:var(--red-b)}
+.v-wait{background:var(--amber-d);border-color:var(--amber-b)}
+.v-ico{font-size:24px;font-family:'JetBrains Mono',monospace;font-weight:500}
+.v-go .v-ico{color:var(--green)}.v-no .v-ico{color:var(--red)}.v-wait .v-ico{color:var(--amber)}
+.v-txt{font-size:14px;font-weight:600;color:var(--text)}
+.v-sub{font-size:12px;color:var(--muted);margin-top:1px}
+
+/* SLIDERS */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:var(--bg3);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--amber);border:3px solid var(--bg);cursor:pointer;box-shadow:0 0 10px var(--amber-b)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--amber);border:3px solid var(--bg);cursor:pointer}
+
+/* CHECKLIST */
+.chk{margin:16px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2)}
+.ci{display:flex;gap:12px;align-items:flex-start;padding:12px 18px;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;transition:background .15s;user-select:none}
+.ci:hover{background:var(--bg3)}
+.ci:last-child{border-bottom:none}
+.cb{width:20px;height:20px;border:1.5px solid var(--border2);border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;color:transparent;font-size:13px;transition:all .15s;font-family:'JetBrains Mono',monospace}
+.ci.done .cb{background:var(--green);border-color:var(--green);color:#000}
+.ci.done .ct{color:var(--faint);text-decoration:line-through}
+.ct{color:var(--muted)}
+.chk-progress{display:flex;align-items:center;gap:12px;margin:14px 0;font-size:13px;color:var(--muted)}
+.chk-bar{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.chk-fill{height:100%;background:var(--green);border-radius:4px;transition:width .3s;width:0}
+.chk-count{font-family:'JetBrains Mono',monospace;font-size:12px;min-width:42px;text-align:right}
+
+/* PCR + RSI BARS */
+.zbar{display:flex;height:30px;border-radius:8px;overflow:hidden;margin:12px 0 6px}
+.zseg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:filter .15s}
+.zseg:hover{filter:brightness(1.25)}
+.bigval{font-size:34px;font-weight:700;font-family:'Sora',sans-serif;transition:color .3s;text-align:center}
+.bigsub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px}
+
+.divider{border:none;border-top:1px solid var(--border);margin:0 0 80px}
+.anchor{scroll-margin-top:30px}
+.foot{text-align:center;padding:48px 0 24px;color:var(--faint);font-size:12px;font-family:'JetBrains Mono',monospace;border-top:1px solid var(--border)}
+.foot .ft{color:var(--amber);margin-bottom:8px}
+
+@media(max-width:920px){nav{display:none}main{padding:0 24px 60px}.hero h1{font-size:32px}}
+@media print{nav{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="mark">Intraday System</div>
+    <div class="title">Nifty Options Playbook</div>
+  </div>
+  <div class="nav-lbl">Core System</div>
+  <a href="#s1"><span class="num">01</span>Ojha CPR + Supertrend</a>
+  <a href="#s2"><span class="num">02</span>Signal Logic — 6 Setups</a>
+  <a href="#s3"><span class="num">03</span>When to Stay Out</a>
+  <div class="nav-lbl">Confirmation Layers</div>
+  <a href="#s4"><span class="num">04</span>VWAP Simulator</a>
+  <a href="#s5"><span class="num">05</span>India VIX Explorer</a>
+  <a href="#s6"><span class="num">06</span>RSI Timing Lab</a>
+  <a href="#s7"><span class="num">07</span>Volume Profile</a>
+  <a href="#s8"><span class="num">08</span>OI + PCR Console</a>
+  <div class="nav-lbl">Operations</div>
+  <a href="#s9"><span class="num">09</span>Master Checklist</a>
+  <a href="#s10"><span class="num">10</span>Pre-Market Routine</a>
+  <a href="#s11"><span class="num">11</span>Strike Selection</a>
+  <a href="#s12"><span class="num">12</span>Expiry Day Rules</a>
+</nav>
+
+<main>
+
+<div class="hero">
+  <div class="hero-eyebrow">Nifty 50 / BankNifty — Intraday Options</div>
+  <h1>Ojha CPR + <em>Five-Layer</em><br>Confirmation System</h1>
+  <p class="hero-sub">An interactive trading framework combining structural pivot analysis, institutional bias filters, momentum timing, volume positioning, and options market intelligence. Every entry requires the layers to align — explore each one below.</p>
+  <div class="hero-pills">
+    <span class="hpill hp-amber">CPR + Supertrend</span>
+    <span class="hpill hp-blue">VWAP</span>
+    <span class="hpill hp-red">India VIX</span>
+    <span class="hpill hp-green">RSI 14</span>
+    <span class="hpill hp-purple">Volume Profile</span>
+    <span class="hpill hp-amber">OI + PCR</span>
+  </div>
+</div>
+<!-- 01 OJHA CPR -->
+<section id="s1" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 1 — Foundation</div>
+    <h2>Ojha CPR + Supertrend</h2>
+    <p class="sec-intro">The base system. CPR classifies the day type, Pivot levels set targets, Supertrend confirms trend direction. Every other layer is a filter on top of this foundation.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="c-lbl">Central Pivot Range</div><div class="c-title">TC / Pivot / BC</div><div class="c-desc">Day-type classifier. <strong>Narrow CPR</strong> = trending day expected. <strong>Wide CPR</strong> = choppy day. Calculated from previous day's High, Low, Close.</div></div>
+    <div class="card"><div class="c-lbl">Pivot Levels</div><div class="c-title">S1 S2 S3 / R1 R2 R3</div><div class="c-desc">Targets once in a trade. R1/S1 = first target. R2/S2 = trail on strong momentum. R3/S3 = rare extreme trend days only.</div></div>
+    <div class="card"><div class="c-lbl">Supertrend</div><div class="c-title">Trend confirmation</div><div class="c-desc"><strong>Green</strong> = bullish bias. <strong>Red</strong> = bearish. Never trade a CPR breakout when Supertrend conflicts with the direction.</div></div>
+  </div>
+  <h3>CPR width interpretation</h3>
+  <div class="rules">
+    <div class="rr"><div class="rdot dg"></div><div><div class="rh">Narrow CPR — trending day</div><div class="rb">Previous day had a small range. Expect a breakout above TC or below BC with follow-through. The system's primary opportunity.</div></div></div>
+    <div class="rr"><div class="rdot dr"></div><div><div class="rh">Wide CPR (400–600 pts on Nifty) — choppy day</div><div class="rb">Both sides of CPR will get tested. Avoid directional buying. Prefer option-selling strategies.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">Overlapping CPR — continuation bias</div><div class="rb">Today's CPR overlaps yesterday's. Today's CPR above yesterday's = bullish carry. Below = bearish carry.</div></div></div>
+  </div>
+</section>
+
+<!-- 02 SIGNAL LOGIC -->
+<section id="s2" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 1 — Entries</div>
+    <h2>Signal Logic — All 6 Setups</h2>
+    <p class="sec-intro">Three long, three short. Setup 1 is the highest conviction. Setup 3 is counter-trend — extra caution. Click a setup to view full entry rules.</p>
+  </div>
+  <div class="sgrid" id="setupGrid"></div>
+  <div id="setupVerdict"></div>
+  <div class="dgrid" id="setupDetail"></div>
+  <div class="abox" id="setupAction"></div>
+</section>
+
+<!-- 03 STAY OUT -->
+<section id="s3" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 1 — Filters</div>
+    <h2>When to Stay Out</h2>
+    <p class="sec-intro">The system's explicit no-trade rules. These save more money than the entries make.</p>
+  </div>
+  <div class="rules">
+    <div class="rr"><div class="rdot dr"></div><div><div class="rh">Wide CPR — choppy market</div><div class="rb">Previous day large range (400–600 pts Nifty). Entries stopped out repeatedly. Only trade if price cleanly breaks R1 or S1 with momentum.</div></div></div>
+    <div class="rr"><div class="rdot dr"></div><div><div class="rh">Price inside CPR — indecision zone</div><div class="rb">Between TC and BC, neither side in control. Wait for a clean close outside CPR before any entry.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">Low volatility first candle</div><div class="rb">First 9:15 candle under <strong>80 pts Nifty</strong> / <strong>150 pts BankNifty</strong> / <strong>250 pts Sensex</strong>. Wait 2–3 candles after open for direction.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">Supertrend conflicts with CPR</div><div class="rb">TC break with red Supertrend, or BC break with green. Two conflicting signals = no entry. Wait for full alignment.</div></div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 04 VWAP -->
+<section id="s4" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 2 — Institutional Bias</div>
+    <h2>VWAP Scenario Simulator</h2>
+    <p class="sec-intro">VWAP is the volume-weighted average price from 9:15 AM, reset daily. Institutions benchmark against it. Price above VWAP = institutional buying. CPR gives the level — VWAP tells you whether institutions support it. Click each scenario.</p>
+  </div>
+  <div class="co co-b"><strong>Core rule:</strong> VWAP is reliable only after 9:30 AM. In the first 15 minutes it has too few data points. Before 9:30, trust CPR structure over VWAP.</div>
+  <div class="sgrid" id="vwapGrid"></div>
+  <div id="vwapVerdict"></div>
+  <svg width="100%" viewBox="0 0 680 250" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px">
+    <line id="vTC" x1="30" y1="75" x2="560" y2="75" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <line id="vBC" x1="30" y1="140" x2="560" y2="140" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <rect id="vZone" x="30" y="75" width="530" height="65" fill="#22c55e" fill-opacity="0.05"/>
+    <line id="vVW" x1="30" y1="108" x2="560" y2="108" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="7 3"/>
+    <text x="572" y="79" fill="#22c55e" font-size="12" font-family="JetBrains Mono">TC</text>
+    <text x="572" y="144" fill="#22c55e" font-size="12" font-family="JetBrains Mono">BC</text>
+    <text id="vVWl" x="572" y="112" fill="#60a5fa" font-size="12" font-family="JetBrains Mono">VWAP</text>
+    <line x1="30" y1="38" x2="560" y2="38" stroke="#333b4f" stroke-width="0.6" stroke-dasharray="2 5"/>
+    <text x="38" y="32" fill="#5a6376" font-size="11" font-family="JetBrains Mono">R1</text>
+    <line x1="30" y1="218" x2="560" y2="218" stroke="#333b4f" stroke-width="0.6" stroke-dasharray="2 5"/>
+    <text x="38" y="234" fill="#5a6376" font-size="11" font-family="JetBrains Mono">S1</text>
+    <rect id="vP" x="260" y="42" width="62" height="24" rx="5" fill="#22c55e"/>
+    <text id="vPt" x="291" y="58" text-anchor="middle" fill="#000" font-size="12" font-weight="600" font-family="Inter">PRICE</text>
+  </svg>
+  <div class="dgrid" id="vwapDetail" style="margin-top:16px"></div>
+  <div class="abox" id="vwapAction"></div>
+  <h3>Sizing with VWAP confirmation</h3>
+  <div class="grid">
+    <div class="card"><div class="c-lbl">All 3 aligned</div><div class="c-title">CPR + VWAP + Supertrend</div><div class="c-desc">Size up: 2–3 lots. Maximum conviction.</div></div>
+    <div class="card"><div class="c-lbl">Two aligned</div><div class="c-title">CPR + Supertrend only</div><div class="c-desc">Normal size: 1 lot. One confirmation missing.</div></div>
+    <div class="card"><div class="c-lbl">VWAP conflicts</div><div class="c-title">The veto indicator</div><div class="c-desc">No trade when VWAP opposes CPR direction.</div></div>
+  </div>
+  <div class="co co-a"><strong>Expiry caveat:</strong> On Thursday (Nifty) / Wednesday (BankNifty) expiry, market makers pin VWAP near max pain. Don't read it as normal institutional bias on expiry days. Also: a CPR breakout that clears VWAP SD1 band is a strong trending signal — scale in rather than exiting at R1.</div>
+</section>
+<!-- 05 VIX -->
+<section id="s5" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 3 — Premium Intelligence</div>
+    <h2>India VIX Explorer</h2>
+    <p class="sec-intro">India VIX measures expected Nifty volatility over the next 30 days, derived from options prices. It answers the question CPR cannot: how expensive is the premium you're about to buy or sell? Drag the slider or click a zone.</p>
+  </div>
+  <div class="bigval" id="vixNum" style="color:#22c55e">12.5</div>
+  <div class="bigsub" id="vixZone">Low VIX — calm, complacent market</div>
+  <input type="range" min="8" max="35" step="0.5" value="12.5" id="vixSlider" style="margin-bottom:10px">
+  <div class="zbar">
+    <div class="zseg" style="width:18%;background:#22c55e;color:#04200f" onclick="setVix(10.5)">LOW &lt;13</div>
+    <div class="zseg" style="width:19%;background:#4ade80;color:#06301a" onclick="setVix(15.5)">NORMAL 13–18</div>
+    <div class="zseg" style="width:22%;background:#f59e0b;color:#3a2503" onclick="setVix(21)">ELEVATED 18–24</div>
+    <div class="zseg" style="width:22%;background:#fb923c;color:#421a03" onclick="setVix(27)">HIGH 24–30</div>
+    <div class="zseg" style="width:19%;background:#ef4444;color:#3e0808" onclick="setVix(33)">EXTREME &gt;30</div>
+  </div>
+  <div class="tabs" style="margin-top:20px">
+    <button class="tab on" data-vt="ctx" onclick="vixTab('ctx',this)">Market context</button>
+    <button class="tab" data-vt="str" onclick="vixTab('str',this)">Strategies</button>
+    <button class="tab" data-vt="cpr" onclick="vixTab('cpr',this)">CPR + VIX combos</button>
+  </div>
+  <div id="vixPanel"></div>
+  <div class="co co-r" style="margin-top:22px"><strong>The IV crush trap:</strong> VIX at 22, clear CPR breakdown, you buy PE — Nifty stabilises, VIX drops to 19, your PE loses ₹15 in premium even though Nifty barely moved. The fix: always use debit spreads when VIX is above 18. And check VIX <strong>before</strong> 9:15 — a move of 1.5+ pts overnight changes the whole day's plan.</div>
+</section>
+
+<!-- 06 RSI -->
+<section id="s6" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 4 — Momentum Confirmation</div>
+    <h2>RSI Timing Lab</h2>
+    <p class="sec-intro">RSI fills the gap CPR and Supertrend miss: whether the move has energy behind it. Supertrend flips green, price breaks TC — but RSI at 72 means you're buying exhaustion. Click each scenario to see the verdict.</p>
+  </div>
+  <div class="co co-a"><strong>The rule that saves the most money:</strong> RSI 40–60 on a breakout candle = false-breakout zone. Even with Supertrend and VWAP aligned, the market hasn't decided. Wait for RSI to clear 55 (longs) or drop below 45 (shorts). This one filter eliminates most losing trades.</div>
+  <div class="zbar">
+    <div class="zseg" style="width:30%;background:#ef444425;color:#ef4444">&lt;40 OVERSOLD</div>
+    <div class="zseg" style="width:30%;background:#1a1e2a;color:#8b95a8">40–60 CHOP — NO TRADE</div>
+    <div class="zseg" style="width:25%;background:#22c55e25;color:#22c55e">60–70 MOMENTUM</div>
+    <div class="zseg" style="width:15%;background:#f59e0b25;color:#f59e0b">&gt;70 OB</div>
+  </div>
+  <div class="sgrid" id="rsiGrid" style="margin-top:18px"></div>
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+    <span style="font-size:13px;color:var(--muted)">RSI:</span>
+    <span id="rsiVal" class="bigval" style="font-size:26px;color:#22c55e">58</span>
+    <span id="rsiBadge" class="sig sg">TAKE TRADE</span>
+  </div>
+  <div style="position:relative;height:14px;border-radius:7px;overflow:hidden;display:flex;margin-bottom:18px">
+    <div style="width:30%;background:#ef444425"></div><div style="width:30%;background:#1a1e2a"></div><div style="width:25%;background:#22c55e25"></div><div style="width:15%;background:#f59e0b25"></div>
+    <div id="rsiNeedle" style="position:absolute;top:0;height:100%;width:4px;border-radius:2px;background:#22c55e;left:56%;transition:left .4s,background .3s"></div>
+  </div>
+  <div class="dgrid" id="rsiDetail"></div>
+  <div class="abox" id="rsiAction"></div>
+  <h3>Divergence — exit signals</h3>
+  <div class="rules">
+    <div class="rr"><div class="rdot dr"></div><div><div class="rh">Bearish divergence — exit CE early</div><div class="rb">Price makes new high, RSI makes lower high. Book 50–75% at R1, trail rest tight. Read divergence on 15-min, not 5-min — far more reliable.</div></div></div>
+    <div class="rr"><div class="rdot dg"></div><div><div class="rh">Bullish divergence — tighten PE stops</div><div class="rb">Price makes new low, RSI higher low. Selling momentum fading. Don't add shorts. Watch for CPR bounce forming above BC.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">Divergence + R1 = full exit signal</div><div class="rb">CE position + price at R1 + bearish 15-min divergence — exit fully, don't trail. Rarely fails to produce a 30–50 pt reversal.</div></div></div>
+  </div>
+  <h3>Settings & chart layout</h3>
+  <div class="grid">
+    <div class="card"><div class="c-lbl">Settings</div><div class="c-title">RSI(14), source Close</div><div class="c-desc">Never RSI(7)/RSI(9) — too noisy intraday. Add horizontal lines at 45 / 50 / 55.</div></div>
+    <div class="card"><div class="c-lbl">Timeframes</div><div class="c-title">5-min entry, 15-min context</div><div class="c-desc">Enter on 5-min only when 15-min agrees. Before 10 AM, trust 15-min over 5-min.</div></div>
+    <div class="card"><div class="c-lbl">Layout</div><div class="c-title">3 stacked panels</div><div class="c-desc">Top: price + CPR + ST + VWAP. Middle: RSI(14). Bottom: volume. Never trade without RSI visible.</div></div>
+    <div class="card"><div class="c-lbl">Session bias</div><div class="c-title">The 50-level rule</div><div class="c-desc">Price &gt; VWAP + RSI &gt; 50 = bullish session. Both below = bearish. Two-minute morning read.</div></div>
+  </div>
+</section>
+<!-- 07 VOLUME PROFILE -->
+<section id="s7" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 5 — Positional Intelligence</div>
+    <h2>Volume Profile</h2>
+    <p class="sec-intro">Volume Profile is space-based, not time-based — it shows where volume actually traded at each price. Price moves fast through Low Volume Nodes (air pockets) and slows at High Volume Nodes. CPR gives the mathematical pivot; VP tells you if institutions are defending it.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="vpTab('a',this)">Anatomy</button>
+    <button class="tab" onclick="vpTab('b',this)">CPR + VP combos</button>
+    <button class="tab" onclick="vpTab('c',this)">Scenarios</button>
+    <button class="tab" onclick="vpTab('d',this)">TradingView setup</button>
+  </div>
+
+  <div id="vp-a">
+    <svg width="100%" viewBox="0 0 680 350" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px">
+      <text x="160" y="32" text-anchor="middle" fill="#8b95a8" font-size="12" font-family="Inter">Previous day volume profile</text>
+      <rect x="40" y="46" width="16" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="68" width="34" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="90" width="58" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="112" width="88" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="134" width="128" height="16" rx="3" fill="#22c55e" opacity="0.7"/>
+      <rect x="40" y="156" width="195" height="18" rx="3" fill="#ef4444" opacity="0.85"/>
+      <rect x="40" y="180" width="155" height="16" rx="3" fill="#22c55e" opacity="0.7"/>
+      <rect x="40" y="202" width="105" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="224" width="66" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="246" width="38" height="16" rx="3" fill="#22c55e" opacity="0.6"/>
+      <rect x="40" y="268" width="20" height="16" rx="3" fill="#22c55e" opacity="0.5"/>
+      <rect x="40" y="290" width="11" height="16" rx="3" fill="#22c55e" opacity="0.4"/>
+      <rect x="40" y="134" width="250" height="113" fill="#22c55e" fill-opacity="0.05"/>
+      <line x1="40" y1="134" x2="290" y2="134" stroke="#4ade80" stroke-width="0.8" stroke-dasharray="4 3"/>
+      <line x1="40" y1="247" x2="290" y2="247" stroke="#4ade80" stroke-width="0.8" stroke-dasharray="4 3"/>
+      <line x1="40" y1="165" x2="290" y2="165" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="5 2"/>
+      <text x="298" y="138" fill="#4ade80" font-size="12" font-family="JetBrains Mono">VAH</text>
+      <text x="298" y="169" fill="#ef4444" font-size="12" font-family="JetBrains Mono">POC</text>
+      <text x="298" y="251" fill="#4ade80" font-size="12" font-family="JetBrains Mono">VAL</text>
+      <line x1="40" y1="90" x2="290" y2="90" stroke="#60a5fa" stroke-width="0.7" stroke-dasharray="2 5"/>
+      <line x1="40" y1="290" x2="290" y2="290" stroke="#60a5fa" stroke-width="0.7" stroke-dasharray="2 5"/>
+      <text x="298" y="94" fill="#60a5fa" font-size="12" font-family="JetBrains Mono">LVN</text>
+      <text x="298" y="294" fill="#60a5fa" font-size="12" font-family="JetBrains Mono">LVN</text>
+      <text x="385" y="60" fill="#e6eaf2" font-size="13" font-weight="600" font-family="Inter">POC — Point of Control</text>
+      <text x="385" y="78" fill="#8b95a8" font-size="11.5" font-family="Inter">Highest-volume price. Acts as a magnet —</text>
+      <text x="385" y="93" fill="#8b95a8" font-size="11.5" font-family="Inter">price drifts back here on indecisive days.</text>
+      <text x="385" y="125" fill="#e6eaf2" font-size="13" font-weight="600" font-family="Inter">VAH / VAL — Value Area (70%)</text>
+      <text x="385" y="143" fill="#8b95a8" font-size="11.5" font-family="Inter">Open above VAH = institutions buying above</text>
+      <text x="385" y="158" fill="#8b95a8" font-size="11.5" font-family="Inter">fair value (bullish). Open below VAL = bearish.</text>
+      <text x="385" y="190" fill="#e6eaf2" font-size="13" font-weight="600" font-family="Inter">HVN — High Volume Node</text>
+      <text x="385" y="208" fill="#8b95a8" font-size="11.5" font-family="Inter">Price decelerates or stalls. Take partials here.</text>
+      <text x="385" y="240" fill="#e6eaf2" font-size="13" font-weight="600" font-family="Inter">LVN — Low Volume Node</text>
+      <text x="385" y="258" fill="#8b95a8" font-size="11.5" font-family="Inter">Air pocket — price moves through fast. Good</text>
+      <text x="385" y="273" fill="#8b95a8" font-size="11.5" font-family="Inter">for targets, bad for entries. Never put SL inside.</text>
+    </svg>
+    <div class="co co-g" style="margin-top:18px"><strong>The 80% Value Area Rule:</strong> If price opens outside yesterday's Value Area and re-enters it, there's ~80% probability it travels to the other side. Open above VAH → drops inside → expect VAL. One of the most underused edges in Nifty intraday — and a clean call-spread-selling setup on the re-entry.</div>
+  </div>
+
+  <div id="vp-b" style="display:none">
+    <div class="rules">
+      <div class="rr"><div class="rdot dg"></div><div><div class="rh">POC aligns with TC — strongest long</div><div class="rb">Yesterday's most-traded price defending today's breakout level. Massive institutional backing. 2-lot setup when other layers align. Target VAH, then R1.</div></div></div>
+      <div class="rr"><div class="rdot dg"></div><div><div class="rh">Open above VAH — trend day confirmed</div><div class="rb">Institutions bidding above fair value. Narrow CPR breakout above TC = high conviction. Target R1–R2. SL: close back below VAH.</div></div></div>
+      <div class="rr"><div class="rdot dr"></div><div><div class="rh">Open below VAL — bearish trend day</div><div class="rb">Mirror setup. Narrow CPR breakdown below BC is high conviction. Target S1–S2. SL: close back above VAL.</div></div></div>
+      <div class="rr"><div class="rdot da"></div><div><div class="rh">Open inside Value Area — range day</div><div class="rb">Inside accepted fair value. CPR breakouts fail more — price is drawn back to POC. Wait for a clean Value Area exit before trusting any breakout.</div></div></div>
+      <div class="rr"><div class="rdot db"></div><div><div class="rh">LVN between TC and R1 — fast move</div><div class="rb">No institutional resistance in the path. Don't take partials inside the LVN — trail SL aggressively and let it run to R1.</div></div></div>
+      <div class="rr"><div class="rdot da"></div><div><div class="rh">HVN between TC and R1 — slow move</div><div class="rb">Institutional interest in the path. Take 50–60% profit at the HVN, trail the rest with SL at TC. Don't expect a clean first-attempt break.</div></div></div>
+    </div>
+  </div>
+
+  <div id="vp-c" style="display:none">
+    <div class="sgrid" id="vpGrid"></div>
+    <div class="dgrid" id="vpDetail"></div>
+    <div class="abox" id="vpAction"></div>
+  </div>
+
+  <div id="vp-d" style="display:none">
+    <div class="grid">
+      <div class="card"><div class="c-lbl">Indicator</div><div class="c-title">Volume Profile Fixed Range</div><div class="c-desc">Drag VPFR over yesterday's session (9:15–3:30). TradingView Pro+ required. VRVP (Visible Range) is the free-ish fallback.</div></div>
+      <div class="card"><div class="c-lbl">Settings</div><div class="c-title">Row 25 ticks · VA 70%</div><div class="c-desc">Profile type: Volume (not TPO). POC red line, VAH/VAL green. Draw on 15-min chart, then trade entries on 5-min.</div></div>
+      <div class="card"><div class="c-lbl">Timing</div><div class="c-title">Intraday VP after 11 AM only</div><div class="c-desc">Current session's profile lacks data before 11 AM. Only yesterday's profile is actionable in the morning.</div></div>
+      <div class="card"><div class="c-lbl">Weekly POC</div><div class="c-title">The bigger magnet</div><div class="c-desc">Draw VPFR over the previous week. Nifty often returns to weekly POC by Thu/Fri. CPR near weekly POC = major confluence.</div></div>
+    </div>
+    <div class="co co-a"><strong>BankNifty:</strong> POC magnet is stronger — more institutionally driven. Open 200+ pts from the weekly POC and price tends to revert toward it by mid-session, even on trend days.</div>
+  </div>
+</section>
+
+<!-- 08 OI + PCR -->
+<section id="s8" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Layer 6 — Options Market Intelligence</div>
+    <h2>OI + PCR Console</h2>
+    <p class="sec-intro">The only layer that reads the options market itself. Writers — the smart money — defend their strikes, making max OI levels behave like invisible walls. When those walls align with CPR levels, conviction is highest.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="oiTab('a',this)">OI basics</button>
+    <button class="tab" onclick="oiTab('b',this)">Option chain reader</button>
+    <button class="tab" onclick="oiTab('c',this)">PCR meter</button>
+    <button class="tab" onclick="oiTab('d',this)">CPR + OI combos</button>
+  </div>
+
+  <div id="oi-a">
+    <div class="rules">
+      <div class="rr"><div class="rdot db"></div><div><div class="rh">What OI measures</div><div class="rb">Outstanding unsettled contracts per strike. High CE OI = writers want price below that strike. High PE OI = writers want price above it. They hedge and defend actively — real price friction.</div></div></div>
+      <div class="rr"><div class="rdot dg"></div><div><div class="rh">OI increasing = walls building</div><div class="rb">CE OI rising while price rises = call writers reinforcing resistance (bearish). PE OI rising while price falls = put writers reinforcing support (bullish).</div></div></div>
+      <div class="rr"><div class="rdot da"></div><div><div class="rh">OI decreasing = walls coming down <span class="sig si">KEY SIGNAL</span></div><div class="rb">CE OI dropping as price approaches = short covering — expect a fast breakout, not rejection. <strong>The OI change column matters more than the OI column.</strong></div></div></div>
+      <div class="rr"><div class="rdot dr"></div><div><div class="rh">Max Pain — the gravity centre</div><div class="rb">The strike where total buyer premium loss is maximum. On expiry day Nifty gravitates to max pain by 3:00–3:15 PM. Note it every morning — it's often within 50–100 pts of the Pivot.</div></div></div>
+    </div>
+  </div>
+
+  <div id="oi-b" style="display:none">
+    <p style="font-size:13px">A representative Nifty weekly chain. Click any row for the interpretation.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>CE OI (L)</th><th>CE Δ</th><th>CE LTP</th><th>Strike</th><th>PE LTP</th><th>PE Δ</th><th>PE OI (L)</th></tr></thead>
+      <tbody id="chainBody"></tbody>
+    </table></div>
+    <div class="abox" id="chainNote">Click a row above.</div>
+  </div>
+
+  <div id="oi-c" style="display:none">
+    <div class="bigval" id="pcrNum" style="color:#22c55e">1.25</div>
+    <div class="bigsub" id="pcrZone">Bullish — put writers dominant, confirms long setups</div>
+    <input type="range" min="0.4" max="2.2" step="0.05" value="1.25" id="pcrSlider" style="margin-bottom:10px">
+    <div class="zbar">
+      <div class="zseg" style="width:15%;background:#ef4444;color:#3e0808" onclick="setPcr(0.45)">&lt;0.5</div>
+      <div class="zseg" style="width:20%;background:#fb923c;color:#421a03" onclick="setPcr(0.65)">0.5–0.8</div>
+      <div class="zseg" style="width:20%;background:#1a1e2a;color:#8b95a8" onclick="setPcr(1.0)">0.8–1.2</div>
+      <div class="zseg" style="width:25%;background:#22c55e;color:#04200f" onclick="setPcr(1.4)">1.2–1.8</div>
+      <div class="zseg" style="width:20%;background:#f59e0b;color:#3a2503" onclick="setPcr(1.95)">&gt;1.8</div>
+    </div>
+    <div class="abox" id="pcrNote" style="margin-top:16px"></div>
+  </div>
+
+  <div id="oi-d" style="display:none">
+    <div class="rules">
+      <div class="rr"><div class="rdot dg"></div><div><div class="rh">Strongest long: narrow CPR + max CE OI above R1 + PCR &gt; 1.2</div><div class="rb">No wall between TC and R1, put writers holding the floor, trend day expected. The 2-lot setup. Entry on TC break, target R1, SL below BC.</div></div></div>
+      <div class="rr"><div class="rdot dg"></div><div><div class="rh">Max PE OI at TC or inside CPR</div><div class="rb">Breaking above TC also breaks above the put writers' defence zone. Their unwinding fuels the move — expect speed.</div></div></div>
+      <div class="rr"><div class="rdot dr"></div><div><div class="rh">CE wall between TC and R1 — adjust target</div><div class="rb">Writers will defend that strike. Target 20–25 pts below the wall, or buy a call spread with short leg at the wall strike.</div></div></div>
+      <div class="rr"><div class="rdot da"></div><div><div class="rh">Mid-session strike migration — tighten SL</div><div class="rb">Fresh CE OI building closer to price during a rally = writers moving the wall in. Bearish mid-trend. Watch the OI change column live.</div></div></div>
+      <div class="rr"><div class="rdot db"></div><div><div class="rh">Expiry: max pain within 50 pts of Pivot</div><div class="rb">Expect mean-reversion to that zone by 2:30–3:00 PM. Sell straddles near max pain after 2 PM instead of holding direction.</div></div></div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- 09 CHECKLIST -->
+<section id="s9" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Operations</div>
+    <h2>Master Pre-Trade Checklist</h2>
+    <p class="sec-intro">Run in sequence before every entry — Supertrend first (coarsest, 1 second), OI last. Click items to tick them off. Fewer than 4 of 6 layers = no trade.</p>
+  </div>
+  <div class="co co-a"><strong>Sizing rule:</strong> All 6 aligned = 2–3 lots. 5 of 6 = 1–2 lots. 4 of 6 = 1 lot. Fewer = sit out.</div>
+  <div class="tabs">
+    <button class="tab on" onclick="ckTab('long',this)">Long (CE Buy)</button>
+    <button class="tab" onclick="ckTab('short',this)">Short (PE Buy)</button>
+  </div>
+  <div class="chk-progress">
+    <div class="chk-bar"><div class="chk-fill" id="ckFill"></div></div>
+    <div class="chk-count" id="ckCount">0 / 8</div>
+    <button class="tab" style="padding:5px 12px;font-size:12px" onclick="ckReset()">Reset</button>
+  </div>
+  <div class="chk" id="ckList"></div>
+  <div id="ckVerdict"></div>
+</section>
+
+<!-- 10 PRE-MARKET -->
+<section id="s10" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Operations</div>
+    <h2>Pre-Market Routine</h2>
+    <p class="sec-intro">10–12 minutes before 9:15 AM. Doing this consistently eliminates reactive decision-making during the session.</p>
+  </div>
+  <div class="rules">
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">1 · India VIX — 2 min</div><div class="rb">Check <span class="mono">INDIAVIX</span> level and direction vs yesterday. Moved 1.5+ pts overnight? Adjust strategy before anything else.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">2 · CPR levels — 1 min</div><div class="rb">Write TC, BC, Pivot, R1, R2, S1, S2. Classify narrow vs wide. This sets the day's character before the open.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">3 · Volume Profile — 2 min</div><div class="rb">Yesterday's POC, VAH, VAL. Any overlap with CPR within 20 pts = highest-conviction zones of the day.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">4 · NSE option chain — 3 min</div><div class="rb">Max CE OI strike (ceiling), max PE OI strike (floor), max pain. Compare all three to CPR levels.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">5 · PCR day bias — 2 min</div><div class="rb">Above 1.2 = bullish prior. Below 0.8 = bearish. 0.8–1.2 = wait for confirmation after the open.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">6 · Three questions — 1 min</div><div class="rb">(1) CPR narrow or wide? (2) VP level overlapping CPR? (3) What does OI say about direction? These decide trade type and size before the first candle.</div></div></div>
+  </div>
+</section>
+
+<!-- 11 STRIKES -->
+<section id="s11" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Operations</div>
+    <h2>Strike Selection</h2>
+    <p class="sec-intro">Right direction, wrong strike = wrong outcome. Strike choice is driven by conviction level and VIX zone.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Setup</th><th>VIX zone</th><th>Strike</th><th>Rationale</th></tr></thead>
+    <tbody>
+      <tr><td>All 6 aligned, narrow CPR</td><td><span class="lvl lg">&lt;13</span></td><td>ATM CE/PE</td><td>Cheap premium + high conviction = max leverage. Full size.</td></tr>
+      <tr><td>All 6 aligned, narrow CPR</td><td><span class="lvl lg">13–18</span></td><td>ATM CE/PE</td><td>Standard setup. Normal size. Target R1/S1.</td></tr>
+      <tr><td>5 of 6 aligned</td><td><span class="lvl lg">13–18</span></td><td>ATM or 1-strike OTM</td><td>OTM trims cost slightly, probability still high.</td></tr>
+      <tr><td>Any setup</td><td><span class="lvl la">18–24</span></td><td>Debit spread (ATM + sell OTM)</td><td>IV crush hits both legs equally — directional profit survives.</td></tr>
+      <tr><td>Any setup</td><td><span class="lvl lr">&gt;24</span></td><td>Wide debit spread (150–200 pts)</td><td>Captures more of the move, caps IV crush both sides. Half size.</td></tr>
+      <tr><td>CE wall between TC and R1</td><td>Any</td><td>Spread, short leg at wall</td><td>Writers defend that strike — your short leg benefits from it.</td></tr>
+      <tr><td>Wide CPR day</td><td>Any</td><td>Sell strangle outside R1/S1</td><td>Expected range day. Collect premium. Exit at 50% profit.</td></tr>
+      <tr><td>Expiry, near max pain</td><td>Any</td><td>Sell ATM straddle after 2 PM</td><td>Final-hour theta collapse + market-maker pinning.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 12 EXPIRY -->
+<section id="s12" class="anchor">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Operations</div>
+    <h2>Expiry Day Rules</h2>
+    <p class="sec-intro">Nifty expires Thursday, BankNifty Wednesday. Expiry has a fundamentally different character — standard rules need modification.</p>
+  </div>
+  <div class="rules">
+    <div class="rr"><div class="rdot dr"></div><div><div class="rh">VWAP is unreliable</div><div class="rb">Market makers pin VWAP near max pain through hedge adjustments. Don't read it as normal institutional bias.</div></div></div>
+    <div class="rr"><div class="rdot da"></div><div><div class="rh">Max pain overrides CPR from 2 PM</div><div class="rb">If price is far from max pain at 2 PM, expect a move toward it regardless of CPR signals.</div></div></div>
+    <div class="rr"><div class="rdot dg"></div><div><div class="rh">Best expiry trade: ATM straddle sell near max pain after 2 PM</div><div class="rb">Final 90 minutes destroy remaining premium. Exit by 3:20 PM. Works whenever price is within ~100 pts of max pain at 2 PM.</div></div></div>
+    <div class="rr"><div class="rdot dr"></div><div><div class="rh">No naked CE/PE into the last hour</div><div class="rb">Book or cut by 2:30 PM if price is far from max pain. The reversion will destroy unhedged positions on the wrong side.</div></div></div>
+    <div class="rr"><div class="rdot db"></div><div><div class="rh">0DTE morning: full system valid until 1 PM</div><div class="rb">From 1 PM, decay and max pain gravity dominate. Tighten SLs significantly. Exit most positions by 2:30 PM.</div></div></div>
+  </div>
+  <div class="co co-a"><strong>Timing summary:</strong> 9:30–11:00 standard system, normal size · 11:00–1:00 reduced size, tighter SLs · 1:00–2:00 high-conviction only · after 2:00 straddle/strangle selling near max pain only.</div>
+</section>
+
+<div class="foot">
+  <div class="ft">OJHA CPR + FIVE-LAYER CONFIRMATION SYSTEM</div>
+  <div>Nifty / BankNifty Intraday Options Playbook</div>
+  <div style="margin-top:8px;color:#3a4050">Educational reference only — not financial advice.</div>
+</div>
+
+</main>
+<script>
+/* ---------- helpers ---------- */
+function verdictHTML(type, txt, sub){
+  const ico = type==='go'?'✓':type==='no'?'✕':'!';
+  return `<div class="verdict v-${type}"><div class="v-ico">${ico}</div><div><div class="v-txt">${txt}</div><div class="v-sub">${sub}</div></div></div>`;
+}
+function dgridHTML(pairs){
+  return pairs.map(([l,v])=>`<div class="dc"><div class="dcl">${l}</div><div class="dcv">${v}</div></div>`).join('');
+}
+
+/* ---------- 02 SETUPS ---------- */
+const setups=[
+ {t:'Long 1 — CPR Breakout',s:'Narrow CPR · above TC',v:'go',vt:'Highest conviction long',vs:'Narrow CPR + hold above TC + Supertrend green',
+  d:[['Entry','5-min close above TC, ST green'],['Stop loss','Below BC (or below TC on failed re-entry)'],['Target','R1 → trail R2/R3'],['Options','Buy ATM CE']],
+  a:'<strong>Conditions:</strong> Narrow CPR. Price opens above TC and holds 2–3 candles without re-entering the CPR zone. Supertrend green. This is the system\'s primary setup — when the other layers confirm, it\'s the 2-lot trade.'},
+ {t:'Long 2 — CPR Bounce',s:'Pullback to TC holds',v:'wait',vt:'Secondary entry — reduce size',vs:'Valid only if Supertrend never flips during the pullback',
+  d:[['Entry','Close above TC after bounce candle'],['Stop loss','Below BC — close below BC kills the setup'],['Target','R1, then R2'],['Options','Smaller ATM CE or call spread']],
+  a:'<strong>Conditions:</strong> Price opened above CPR, pulls back into TC/CPR zone, then closes back above TC with Supertrend still green. RSI bouncing off 50 confirms. Use smaller size than Setup 1 — it\'s a secondary signal.'},
+ {t:'Long 3 — Pivot Bounce',s:'P support from below',v:'wait',vt:'Counter-trend — caution',vs:'Price below CPR finding support at the Pivot Point',
+  d:[['Entry','Above the high of the bounce candle at P'],['Stop loss','Below P with 2–3 pt buffer'],['Target','BC first, then TC'],['Options','Small CE only']],
+  a:'<strong>Conditions:</strong> Price below CPR finds support at P and prints a strong bullish candle. An overlapping higher CPR adds confidence. This trades back INTO the CPR zone — targets are closer and the trade is counter-trend, so keep size small.'},
+ {t:'Short 1 — CPR Breakdown',s:'Narrow CPR · below BC',v:'go',vt:'Highest conviction short',vs:'Narrow CPR + hold below BC + Supertrend red',
+  d:[['Entry','5-min close below BC, ST red'],['Stop loss','Above TC (or above BC on failed re-entry)'],['Target','S1 → trail S2/S3'],['Options','Buy ATM PE']],
+  a:'<strong>Conditions:</strong> Narrow CPR. Price opens below BC and stays there 2–3 candles. Supertrend red. The exact mirror of Long Setup 1.'},
+ {t:'Short 2 — CPR Rejection',s:'Rally to BC rejected',v:'wait',vt:'Secondary entry — reduce size',vs:'CPR acting as resistance from below',
+  d:[['Entry','Close below BC after rejection candle'],['Stop loss','Above TC — close above TC kills it'],['Target','S1, then S2'],['Options','Smaller ATM PE or put spread']],
+  a:'<strong>Conditions:</strong> Price opened below CPR, rallies into BC, gets rejected and closes back below it. Supertrend stays red through the rally. Lower confidence than Setup 1 — tighter stop, smaller size.'},
+ {t:'Short 3 — Pivot Rejection',s:'P resistance from above',v:'wait',vt:'Counter-trend — caution',vs:'Price above CPR rejected at the Pivot Point',
+  d:[['Entry','Below the low of the rejection candle at P'],['Stop loss','Above P with 2–3 pt buffer'],['Target','TC first, then BC'],['Options','Small PE only']],
+  a:'<strong>Conditions:</strong> Price above CPR is rejected at P — bearish engulfing or long upper wick. Overlapping lower CPR adds confidence. Counter-trend trade back into the CPR zone. Small size.'}
+];
+const sg=document.getElementById('setupGrid');
+sg.innerHTML=setups.map((s,i)=>`<button class="sbtn${i===0?' on':''}" onclick="setSetup(${i})"><div class="st">${s.t}</div>${s.s}</button>`).join('');
+function setSetup(i){
+  document.querySelectorAll('#setupGrid .sbtn').forEach((b,j)=>b.classList.toggle('on',j===i));
+  const s=setups[i];
+  document.getElementById('setupVerdict').innerHTML=verdictHTML(s.v,s.vt,s.vs);
+  document.getElementById('setupDetail').innerHTML=dgridHTML(s.d);
+  document.getElementById('setupAction').innerHTML=s.a;
+}
+setSetup(0);
+
+/* ---------- 04 VWAP ---------- */
+const vwapS=[
+ {t:'Strongest long',s:'Above TC + above VWAP',v:'go',vt:'Take the trade — full size',vs:'Structural and institutional bias both bullish',
+  py:42,pc:'#22c55e',vy:172,
+  d:[['Entry','5-min close above TC'],['Stop loss','Below BC (tighter: below VWAP)'],['Target','R1, then R2'],['Options','Buy ATM CE']],
+  a:'<strong>Setup:</strong> Narrow CPR day. Price opens and holds above TC. VWAP rises below price — institutions buying. Supertrend green. Full alignment: enter on the next 5-min close above TC, size normally or up.'},
+ {t:'Weak breakout',s:'Above TC, below VWAP',v:'wait',vt:'Wait or skip',vs:'Institutions not supporting the breakout',
+  py:42,pc:'#f59e0b',vy:58,
+  d:[['Entry','Wait for VWAP to rise above TC'],['Stop loss','—'],['Target','—'],['Options','No trade yet']],
+  a:'<strong>Risk:</strong> Price broke TC but VWAP is still above it — volume-weighted consensus is bearish on the other side of CPR. Common gap-up trap. The breakout is real only when VWAP also crosses above TC.'},
+ {t:'Strongest short',s:'Below BC + below VWAP',v:'no',vt:'Take the short — full size',vs:'Structural and institutional bias both bearish',
+  py:188,pc:'#ef4444',vy:108,
+  d:[['Entry','5-min close below BC'],['Stop loss','Above TC (tighter: above VWAP)'],['Target','S1, then S2'],['Options','Buy ATM PE']],
+  a:'<strong>Setup:</strong> Narrow CPR. Price opens below BC and stays. VWAP above price — institutional distribution. Supertrend red. Mirror of the strongest long.'},
+ {t:'Weak breakdown',s:'Below BC, above VWAP',v:'wait',vt:'Likely a trap — wait',vs:'Institutions net buyers relative to today\'s average',
+  py:188,pc:'#f59e0b',vy:172,
+  d:[['Entry','Wait for VWAP to drop below BC'],['Stop loss','—'],['Target','—'],['Options','No trade yet']],
+  a:'<strong>Risk:</strong> Price broke below BC but VWAP is still below it, supporting price. Common first-15-min overshoot. Wait for VWAP to confirm by dropping below BC before shorting.'},
+ {t:'CPR bounce',s:'TC pullback + VWAP holds',v:'go',vt:'Valid long re-entry',vs:'Setup 2 confirmed by institutional bias',
+  py:70,pc:'#22c55e',vy:172,
+  d:[['Entry','Close above TC after bounce'],['Stop loss','BC or VWAP — whichever breaks first'],['Target','R1'],['Options','Slightly OTM CE, smaller size']],
+  a:'<strong>Setup:</strong> After an initial breakout, price pulls back into CPR. VWAP stays below price, Supertrend never flips. Ojha Setup 2 with VWAP confirmation — smaller size than the initial entry.'},
+ {t:'Inside CPR',s:'Both inside the zone',v:'no',vt:'No directional trade',vs:'Maximum indecision — price and VWAP both in the value zone',
+  py:96,pc:'#8b95a8',vy:108,
+  d:[['Entry','None'],['Stop loss','None'],['Target','None'],['Options','Sell straddle / iron fly']],
+  a:'<strong>Avoid:</strong> Price and VWAP both inside CPR — the market hasn\'t found direction. For sellers: a wide CPR + price inside is the ideal short-straddle day. For directional traders: sit out.'}
+];
+const vg=document.getElementById('vwapGrid');
+vg.innerHTML=vwapS.map((s,i)=>`<button class="sbtn${i===0?' on':''}" onclick="setVwap(${i})"><div class="st">${s.t}</div>${s.s}</button>`).join('');
+function setVwap(i){
+  document.querySelectorAll('#vwapGrid .sbtn').forEach((b,j)=>b.classList.toggle('on',j===i));
+  const s=vwapS[i];
+  document.getElementById('vwapVerdict').innerHTML=verdictHTML(s.v,s.vt,s.vs);
+  const p=document.getElementById('vP');p.setAttribute('y',s.py);p.setAttribute('fill',s.pc);
+  const pt=document.getElementById('vPt');pt.setAttribute('y',s.py+16);
+  const vw=document.getElementById('vVW');vw.setAttribute('y1',s.vy);vw.setAttribute('y2',s.vy);
+  document.getElementById('vVWl').setAttribute('y',s.vy+4);
+  document.getElementById('vwapDetail').innerHTML=dgridHTML(s.d);
+  document.getElementById('vwapAction').innerHTML=s.a;
+}
+setVwap(0);
+
+/* ---------- 05 VIX ---------- */
+const vixZones=[
+ {max:13,c:'#22c55e',n:'Low VIX — calm, complacent market',
+  ctx:[['Market mood','Complacent. No fear. Calm expected.'],['Premium','Cheap — low theta per day.'],['Trend bias','Slow grind up or sideways.'],['IV crush risk','Low — little room to fall further.']],
+  str:'<div class="rules"><div class="rr"><div class="rdot dg"></div><div><div class="rh">Buy strangles / straddles</div><div class="rb">Premium is cheap — ideal time to buy volatility. Pair with narrow CPR for timing.</div></div></div><div class="rr"><div class="rdot dg"></div><div><div class="rh">Buy directional CE/PE</div><div class="rb">Low debit cost. ATM or 1-strike OTM on a confirmed CPR breakout = excellent R:R.</div></div></div><div class="rr"><div class="rdot dr"></div><div><div class="rh">Avoid selling premium</div><div class="rb">Tiny collection vs the risk of a VIX spike. Not worth it.</div></div></div></div>',
+  cpr:'<div class="abox"><strong>Low VIX + Narrow CPR = best setup of the month.</strong> Cheap options AND a trending day expected. Buy ATM CE/PE on the breakout, target R2/S2 not just R1/S1 when VWAP also aligns. Keep size normal — low VIX can spike suddenly.</div>'},
+ {max:18,c:'#4ade80',n:'Normal VIX — balanced market',
+  ctx:[['Market mood','Balanced. Some uncertainty, no panic.'],['Premium','Fair value.'],['Trend bias','Mixed — depends on other layers.'],['IV crush risk','Moderate — careful on event days.']],
+  str:'<div class="rules"><div class="rr"><div class="rdot dg"></div><div><div class="rh">Directional buying (standard)</div><div class="rb">The default zone for the Ojha system. ATM CE/PE on breakout, normal size.</div></div></div><div class="rr"><div class="rdot db"></div><div><div class="rh">Bull/bear spreads</div><div class="rb">Buy ATM, sell OTM. Slightly cheaper, protects against an IV dip. Good for moderate conviction.</div></div></div><div class="rr"><div class="rdot da"></div><div><div class="rh">Iron condor on wide CPR</div><div class="rb">Sell beyond R1/S1, collect fair premium, exit if price approaches either short strike.</div></div></div></div>',
+  cpr:'<div class="abox"><strong>Normal VIX + Narrow CPR:</strong> standard play — ATM CE/PE on breakout, target R1/S1. <strong>Normal VIX + Wide CPR:</strong> iron condor selling CE above R1 and PE below S1.</div>'},
+ {max:24,c:'#f59e0b',n:'Elevated VIX — nervous, news-driven',
+  ctx:[['Market mood','Nervous. Hedging activity heavy.'],['Premium','Expensive — 20–40% above normal.'],['Trend bias','Sharp moves AND sharp reversals.'],['IV crush risk','High — any calming event crushes IV fast.']],
+  str:'<div class="rules"><div class="rr"><div class="rdot dr"></div><div><div class="rh">No single-leg buying</div><div class="rb">A correct 100-pt move can still net zero if IV drops 2 pts simultaneously.</div></div></div><div class="rr"><div class="rdot dg"></div><div><div class="rh">Debit spreads only</div><div class="rb">IV crush hits both legs and mostly cancels — the directional profit survives.</div></div></div><div class="rr"><div class="rdot db"></div><div><div class="rh">Sell premium on wide CPR days</div><div class="rb">Fat IV + expected chop = strangles outside R1/S1 with defined risk. Exit at 50%.</div></div></div></div>',
+  cpr:'<div class="abox"><strong>Elevated VIX + Narrow CPR:</strong> conflicting — use a debit spread, tighter SL. <strong>Elevated VIX + Wide CPR:</strong> the classic pre-Budget/RBI seller environment — strangle or iron condor.</div>'},
+ {max:30,c:'#fb923c',n:'High VIX — fear dominant',
+  ctx:[['Market mood','Fear. Violent intraday swings.'],['Premium','Very expensive — 40–80% above normal.'],['Trend bias','Strong trends, violent reversals.'],['IV crush risk','Extreme — 3–5 pts in minutes on a turn.']],
+  str:'<div class="rules"><div class="rr"><div class="rdot dr"></div><div><div class="rh">No naked buying — period</div><div class="rb">Buying a PE at VIX 27 in a crash feels right; the IV crush on the bounce takes it all back.</div></div></div><div class="rr"><div class="rdot dg"></div><div><div class="rh">Wide debit spreads</div><div class="rb">ATM + 200-pt lower leg. Full spread profit on the move despite IV crush.</div></div></div><div class="rr"><div class="rdot da"></div><div><div class="rh">Cut size to 50%</div><div class="rb">Survive first, profit second. Margin and slippage both inflate here.</div></div></div></div>',
+  cpr:'<div class="abox"><strong>High VIX + Narrow CPR:</strong> rare but potent — a genuinely explosive move is loading. Wide debit spreads can be 3–5R. <strong>High VIX + Wide CPR:</strong> the most dangerous combo for everyone. Stay out.</div>'},
+ {max:99,c:'#ef4444',n:'Extreme VIX — panic conditions',
+  ctx:[['Market mood','Panic. Circuit-breaker territory.'],['Premium','2–4× normal. Bid-ask spreads huge.'],['Trend bias','One-way crash or violent two-way.'],['IV crush risk','Catastrophic for buyers post-panic.']],
+  str:'<div class="rules"><div class="rr"><div class="rdot dr"></div><div><div class="rh">Default to sitting out</div><div class="rb">Liquidity dries up, spreads widen to 10–20 pts. Slippage alone kills the P&L.</div></div></div><div class="rr"><div class="rdot da"></div><div><div class="rh">If trading: Nifty spreads only, tiny size</div><div class="rb">Not BankNifty — it goes illiquid in panic.</div></div></div><div class="rr"><div class="rdot dg"></div><div><div class="rh">Watch for the VIX turn</div><div class="rb">VIX peaking and rolling over + a CPR bounce = the recovery CE-spread trade. One of the best of the year.</div></div></div></div>',
+  cpr:'<div class="abox"><strong>Extreme VIX + any CPR: suspend the system.</strong> Price gaps through CPR levels; the order flow that makes them work is disrupted. Resume below VIX 24. Exception: the VIX-rollover reversal trade — once a quarter.</div>'}
+];
+let vixTabState='ctx';
+function getVixZone(v){return vixZones.find(z=>v<z.max)||vixZones[4];}
+function renderVix(){
+  const v=parseFloat(document.getElementById('vixSlider').value);
+  const z=getVixZone(v);
+  const n=document.getElementById('vixNum');n.textContent=v.toFixed(1);n.style.color=z.c;
+  document.getElementById('vixZone').textContent=z.n;
+  const p=document.getElementById('vixPanel');
+  if(vixTabState==='ctx')p.innerHTML='<div class="dgrid">'+dgridHTML(z.ctx)+'</div>';
+  else if(vixTabState==='str')p.innerHTML=z.str;
+  else p.innerHTML=z.cpr;
+}
+function setVix(v){document.getElementById('vixSlider').value=v;renderVix();}
+function vixTab(t,el){vixTabState=t;document.querySelectorAll('[data-vt]').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderVix();}
+document.getElementById('vixSlider').addEventListener('input',renderVix);
+renderVix();
+/* ---------- 06 RSI ---------- */
+const rsiS=[
+ {t:'Perfect long',s:'TC break + RSI 58 rising',rsi:58,c:'#22c55e',b:['sg','TAKE TRADE'],
+  d:[['Entry','5-min close above TC'],['Stop loss','Below BC'],['Target','R1 → R2'],['Options','Buy ATM CE']],
+  a:'<strong>Ideal.</strong> Breakout confirmed, RSI 58 and rising — momentum real, not exhausted. Supertrend green. The sweet spot is RSI crossing 55 on the breakout candle itself. Highest-probability long in the system.'},
+ {t:'Late long',s:'TC break + RSI 74',rsi:74,c:'#f59e0b',b:['sw','LATE — REDUCE SIZE'],
+  d:[['Entry','Wait for pullback to RSI 60–65'],['Stop loss','Tighter — below TC, not BC'],['Target','R1 only, no trail'],['Options','Smaller size or skip']],
+  a:'<strong>Late-entry risk.</strong> RSI 74 on the breakout candle = buying an extended move. R1 may still hit, but the first pullback will be sharp. If entering: tight SL, full profit at R1. Better: wait one candle for an RSI pullback.'},
+ {t:'False breakout',s:'TC break + RSI 48',rsi:48,c:'#ef4444',b:['sn','SKIP — TRAP'],
+  d:[['Entry','No entry'],['Stop loss','—'],['Target','—'],['Options','No trade']],
+  a:'<strong>The most common losing trade.</strong> Breakout in price but RSI in the chop zone — no momentum behind it. Price typically re-enters CPR within 2–3 candles. Wait for RSI to clear 55. This filter alone removes most losers.'},
+ {t:'Perfect short',s:'BC break + RSI 38 falling',rsi:38,c:'#22c55e',b:['sg','TAKE TRADE'],
+  d:[['Entry','5-min close below BC'],['Stop loss','Above TC'],['Target','S1 → S2'],['Options','Buy ATM PE']],
+  a:'<strong>Ideal short.</strong> Breakdown confirmed, RSI 38 and falling — bearish momentum intact, not yet exhausted. Supertrend red. Trail SL from TC down to BC once S1 is hit.'},
+ {t:'Re-entry long',s:'RSI bounces 50 at TC',rsi:51,c:'#22c55e',b:['sg','RE-ENTRY VALID'],
+  d:[['Entry','Close above TC after the bounce'],['Stop loss','VWAP or BC — whichever is closer'],['Target','R1 (already hit once)'],['Options','Smaller CE or call spread']],
+  a:'<strong>Setup 2 confirmed.</strong> After the initial run to R1, price pulls back to TC, RSI corrects to 50 and bounces. VWAP held, Supertrend never flipped. Smaller size — secondary signal, but excellent R:R if the trend day is intact.'},
+ {t:'Divergence',s:'New high, RSI lower high',rsi:55,c:'#f59e0b',b:['sw','EXIT EXISTING'],
+  d:[['Entry','No new entry'],['Stop loss','Tighten on open positions'],['Target','Exit at next CPR level'],['Options','Book CE profits 50–75%']],
+  a:'<strong>Bearish divergence.</strong> Price prints a new high while RSI prints a lower high — momentum fading into the move. No new longs. Book most of an open CE position and trail the rest. On the 15-min near R1/R2 this is a very reliable exit.'}
+];
+const rg=document.getElementById('rsiGrid');
+rg.innerHTML=rsiS.map((s,i)=>`<button class="sbtn${i===0?' on':''}" onclick="setRsi(${i})"><div class="st">${s.t}</div>${s.s}</button>`).join('');
+function setRsi(i){
+  document.querySelectorAll('#rsiGrid .sbtn').forEach((b,j)=>b.classList.toggle('on',j===i));
+  const s=rsiS[i];
+  const v=document.getElementById('rsiVal');v.textContent=s.rsi;v.style.color=s.c;
+  const bd=document.getElementById('rsiBadge');bd.className='sig '+s.b[0];bd.textContent=s.b[1];
+  const nd=document.getElementById('rsiNeedle');nd.style.left=Math.min(Math.max(s.rsi,2),97)+'%';nd.style.background=s.c;
+  document.getElementById('rsiDetail').innerHTML=dgridHTML(s.d);
+  document.getElementById('rsiAction').innerHTML=s.a;
+}
+setRsi(0);
+
+/* ---------- 07 VP tabs + scenarios ---------- */
+function vpTab(t,el){
+  ['a','b','c','d'].forEach(x=>document.getElementById('vp-'+x).style.display=x===t?'':'none');
+  el.parentElement.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));el.classList.add('on');
+}
+const vpS=[
+ {t:'Open above VAH',s:'Narrow CPR long',
+  d:[['Confidence','High'],['Entry','5-min close above TC'],['SL','Close back below VAH'],['Target','R1 then R2'],['Options','ATM CE, size up']],
+  a:'<strong>Strongest long environment.</strong> Open above VAH = institutions buying above fair value. The entire previous value area is below price — no overhead volume supply. RSI above 55 confirms. The 2-lot day.'},
+ {t:'POC = TC',s:'Breakout confluence',
+  d:[['Confidence','Very high'],['Entry','TC breakout (= POC level)'],['SL','Below BC'],['Target','VAH then R1'],['Options','ATM CE, consider 2 lots']],
+  a:'<strong>Maximum confluence.</strong> Yesterday\'s POC at today\'s TC — the breakout has both structural confirmation and institutional volume defending it. The single most reliable VP + CPR long.'},
+ {t:'Open inside VA',s:'Breakouts fail',
+  d:[['Confidence','Low'],['Entry','Do not enter CPR breakouts'],['SL','—'],['Target','POC (magnet)'],['Options','No directional trade']],
+  a:'<strong>Value Area trap.</strong> Opening inside yesterday\'s VA = still in accepted territory; breakouts get pulled back to POC. Wait for a clean VA exit before trusting anything.'},
+ {t:'LVN gap to R1',s:'Fast move target',
+  d:[['Confidence','High (for speed)'],['Entry','Confirmed TC breakout'],['SL','Below TC, tight'],['Target','R1 directly — no partials'],['Options','ATM CE, trail hard']],
+  a:'<strong>Air pocket ahead.</strong> No institutional resistance between TC and R1. Once the breakout confirms, the move through the LVN is fast — don\'t take partials inside it, trail the SL instead.'},
+ {t:'HVN at R1',s:'Partial exit zone',
+  d:[['Confidence','Moderate'],['Entry','Confirmed TC breakout'],['SL','Below BC'],['Target','60% out at the HVN'],['Options','ATM CE, book most at the node']],
+  a:'<strong>Slow move expected.</strong> Heavy prior trading at R1 — price decelerates, stalls, or briefly reverses. Take 60% as it approaches, trail 40% with SL at TC. Don\'t expect a first-attempt break.'},
+ {t:'POC magnet day',s:'Price drift setup',
+  d:[['Confidence','Moderate'],['Entry','Only as price drifts to POC'],['SL','Opposite side of CPR'],['Target','POC level'],['Options','Reduce size, no chasing']],
+  a:'<strong>Indecisive / wide-CPR days:</strong> price drifts toward yesterday\'s POC regardless of the open direction. Not a standard Ojha setup — a signal to cut size, skip breakouts, and watch POC for a base or reversal.'}
+];
+const vpg=document.getElementById('vpGrid');
+vpg.innerHTML=vpS.map((s,i)=>`<button class="sbtn${i===0?' on':''}" onclick="setVp(${i})"><div class="st">${s.t}</div>${s.s}</button>`).join('');
+function setVp(i){
+  document.querySelectorAll('#vpGrid .sbtn').forEach((b,j)=>b.classList.toggle('on',j===i));
+  document.getElementById('vpDetail').innerHTML=dgridHTML(vpS[i].d);
+  document.getElementById('vpAction').innerHTML=vpS[i].a;
+}
+setVp(0);
+
+/* ---------- 08 OI ---------- */
+function oiTab(t,el){
+  ['a','b','c','d'].forEach(x=>document.getElementById('oi-'+x).style.display=x===t?'':'none');
+  el.parentElement.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));el.classList.add('on');
+}
+const chain=[
+ {ce:'18.2',cd:'+1.1',cl:'312',k:'24000',pl:'8',pd:'-0.8',pe:'3.1',n:'<span class="sig sn">RESISTANCE WALL</span><br>Max CE OI in the chain — a strong ceiling. A CPR breakout into this strike needs clear momentum and an unwinding OI change column to get through.'},
+ {ce:'12.4',cd:'+0.4',cl:'198',k:'23800',pl:'18',pd:'+0.2',pe:'4.2',n:'<span class="sig sw">MODERATE RESISTANCE</span><br>Elevated CE OI with fresh writing. If TC sits near here, demand high RSI + VWAP confirmation before buying the breakout.'},
+ {ce:'8.1',cd:'-1.2',cl:'98',k:'23600',pl:'42',pd:'+2.1',pe:'9.4',n:'<span class="sig sg">BULLISH OI SHIFT</span><br>CE OI unwinding (short covering) while PE OI builds. The wall above is coming down and the floor below is rising — longs above this level are well supported.'},
+ {ce:'6.2',cd:'+0.1',cl:'52',k:'23500 ★',pl:'68',pd:'+3.4',pe:'14.8',n:'<span class="sig sg">ATM — STRONG PE SUPPORT</span><br>Heavy fresh PE writing at the money: put writers defending this level hard. CPR TC near here = a strong institutional floor under the breakout.'},
+ {ce:'4.8',cd:'-0.3',cl:'24',k:'23400',pl:'118',pd:'+1.8',pe:'16.2',n:'<span class="sig sg">MAX PE OI — THE FLOOR</span><br>Put writers\' maximum position. They defend it aggressively. BC aligned near here gives the CPR zone a very strong base.'},
+ {ce:'2.1',cd:'+0.2',cl:'10',k:'23200',pl:'224',pd:'-0.4',pe:'8.6',n:'<span class="sig sw">BELOW THE SUPPORT ZONE</span><br>Deep ITM puts, slight unwinding. If price reaches here, S1 has likely been hit — book profits rather than press shorts.'}
+];
+document.getElementById('chainBody').innerHTML=chain.map((r,i)=>`<tr style="cursor:pointer" onclick="chainNote(${i})">
+ <td>${r.ce}L</td><td style="color:${r.cd.startsWith('+')?'var(--green)':'var(--red)'}">${r.cd}L</td><td>₹${r.cl}</td>
+ <td><strong>${r.k}</strong></td>
+ <td>₹${r.pl}</td><td style="color:${r.pd.startsWith('+')?'var(--green)':'var(--red)'}">${r.pd}L</td><td>${r.pe}L</td></tr>`).join('');
+function chainNote(i){document.getElementById('chainNote').innerHTML=chain[i].n;}
+chainNote(3);
+
+const pcrZ=[
+ {max:0.5,c:'#ef4444',n:'Extreme bearish — short-covering rally likely',a:'<strong>Too one-sided bearish.</strong> Fade the direction rather than follow it — don\'t add shorts even on a clean BC breakdown. Squeezed call writers covering can produce a violent bounce.'},
+ {max:0.8,c:'#fb923c',n:'Bearish — call writers dominant',a:'<strong>Confirms short setups.</strong> A CPR breakdown below BC with PCR here carries both structural and options-market pressure. With Supertrend red and RSI under 45, full-size short.'},
+ {max:1.2,c:'#8b95a8',n:'Neutral — no dominant camp',a:'<strong>Balanced chain.</strong> CPR breakouts are less reliable when the options market hasn\'t picked a side. Reduce size or wait for PCR to shift before entering.'},
+ {max:1.8,c:'#22c55e',n:'Bullish — put writers dominant, confirms long setups',a:'<strong>Confirms long setups.</strong> The higher above 1.2, the stronger the PE-writer floor below price. Pairs with narrow-CPR breakouts for the 2-lot trade.'},
+ {max:99,c:'#f59e0b',n:'Extreme bullish — reversal risk rising',a:'<strong>Too one-sided bullish.</strong> Extreme PCR precedes sharp corrections — too many put writers get squeezed at once. No new longs despite bullish CPR; consider a PE hedge until PCR normalises under 1.6.'}
+];
+function renderPcr(){
+  const v=parseFloat(document.getElementById('pcrSlider').value);
+  const z=pcrZ.find(x=>v<=x.max);
+  const n=document.getElementById('pcrNum');n.textContent=v.toFixed(2);n.style.color=z.c;
+  document.getElementById('pcrZone').textContent=z.n;
+  document.getElementById('pcrNote').innerHTML=z.a;
+}
+function setPcr(v){document.getElementById('pcrSlider').value=v;renderPcr();}
+document.getElementById('pcrSlider').addEventListener('input',renderPcr);
+renderPcr();
+
+/* ---------- 09 CHECKLIST ---------- */
+const ckData={
+ long:[
+  '<strong>Supertrend:</strong> green on the trading timeframe',
+  '<strong>CPR:</strong> narrow · price holding above TC 2–3 candles · no re-entry into the zone',
+  '<strong>VWAP:</strong> price above VWAP (check after 9:30 only)',
+  '<strong>RSI(14):</strong> above 55 and rising · not above 72 on the entry candle · 15-min RSI above 50',
+  '<strong>Volume Profile:</strong> no HVN between TC and R1 (or target adjusted) · open above VAH for max conviction',
+  '<strong>OI + PCR:</strong> PCR above 1.0 · max CE OI above R1 · no fresh CE writing at nearby strikes',
+  '<strong>VIX:</strong> under 18 = ATM CE · 18–24 = debit spread only · above 24 = half size, spreads',
+  '<strong>Events:</strong> no RBI / results / major news in the first 30 minutes'],
+ short:[
+  '<strong>Supertrend:</strong> red on the trading timeframe',
+  '<strong>CPR:</strong> narrow · price holding below BC 2–3 candles · no re-entry into the zone',
+  '<strong>VWAP:</strong> price below VWAP (check after 9:30 only)',
+  '<strong>RSI(14):</strong> below 45 and falling · not below 28 on the entry candle · 15-min RSI below 50',
+  '<strong>Volume Profile:</strong> no HVN between BC and S1 (or target adjusted) · open below VAL for max conviction',
+  '<strong>OI + PCR:</strong> PCR below 1.0 · max PE OI below S1 · no fresh PE writing at nearby strikes',
+  '<strong>VIX:</strong> same rules — spreads above 18 · caution above 30',
+  '<strong>Events:</strong> no global gap-up or news contradicting the short']
+};
+let ckMode='long',ckState=[];
+function ckTab(m,el){ckMode=m;el.parentElement.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));el.classList.add('on');ckRender(true);}
+function ckRender(reset){
+  if(reset)ckState=ckData[ckMode].map(()=>false);
+  document.getElementById('ckList').innerHTML=ckData[ckMode].map((t,i)=>
+    `<div class="ci${ckState[i]?' done':''}" onclick="ckToggle(${i})"><div class="cb">✓</div><div class="ct">${t}</div></div>`).join('');
+  const n=ckState.filter(Boolean).length,total=ckState.length;
+  document.getElementById('ckFill').style.width=(n/total*100)+'%';
+  document.getElementById('ckCount').textContent=n+' / '+total;
+  const v=document.getElementById('ckVerdict');
+  if(n===total)v.innerHTML=verdictHTML('go','All layers aligned — maximum conviction','Size up: 2–3 lots. This is the trade the whole system waits for.');
+  else if(n>=6)v.innerHTML=verdictHTML('go','Strong setup','1–2 lots. One or two confirmations missing — stay disciplined on the SL.');
+  else if(n>=4)v.innerHTML=verdictHTML('wait','Marginal — small size only','1 lot max. Consider waiting for one more layer to align.');
+  else v.innerHTML=verdictHTML('no','Not enough confirmation','Fewer than 4 of 8 checks. Sit this one out — the next setup always comes.');
+}
+function ckToggle(i){ckState[i]=!ckState[i];ckRender(false);}
+function ckReset(){ckRender(true);}
+ckRender(true);
+
+/* ---------- NAV highlight ---------- */
+const navLinks=document.querySelectorAll('nav a');
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));}})},{rootMargin:'-15% 0px -70% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
