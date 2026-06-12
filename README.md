@@ -4,11 +4,7 @@ A complete intraday options trading reference for **Nifty 50** and **BankNifty**
 
 ## Live Demo
 
-[View the Playbook →](https://YOUR-USERNAME.github.io/nifty-options-playbook)
-
-> Replace `YOUR-USERNAME` with your GitHub username after deployment.
-
----
+[View the Playbook →](https://luckysriram.github.io/Ojha/)
 
 ## What's Inside
 
@@ -36,43 +32,6 @@ The playbook covers the full system from foundation to operations:
 - **Pre-market routine** — 10-minute morning workflow
 - **Strike selection** — 8 scenarios across VIX zones
 - **Expiry day rules** — timing guide for Thursday (Nifty) / Wednesday (BankNifty)
-
----
-
-## How to Use
-
-### Option 1 — GitHub Pages (recommended)
-
-1. Fork or push this repo to your GitHub account
-2. Go to **Settings → Pages**
-3. Source: `Deploy from a branch` → `main` → `/ (root)`
-4. Save — your playbook will be live at `https://YOUR-USERNAME.github.io/nifty-options-playbook`
-
-### Option 2 — Open locally
-
-```bash
-git clone https://github.com/YOUR-USERNAME/nifty-options-playbook.git
-cd nifty-options-playbook
-open index.html   # macOS
-# or
-start index.html  # Windows
-```
-
-No build step. No dependencies. Pure HTML — works offline.
-
----
-
-## File Structure
-
-```
-nifty-options-playbook/
-├── index.html        # The entire playbook (self-contained)
-└── README.md         # This file
-```
-
-Everything is in `index.html` — fonts load from Google Fonts CDN, no other external dependencies.
-
----
 
 ## Disclaimer
 
